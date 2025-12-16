@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
 class BmiPage extends StatefulWidget {
@@ -9,24 +8,17 @@ class BmiPage extends StatefulWidget {
 }
 
 class _BmiPageState extends State<BmiPage> {
-  // Controller để lấy dữ liệu nhập vào
-  final TextEditingController _heightController =
-      TextEditingController(); // Chiều cao (cm)
-  final TextEditingController _weightController =
-      TextEditingController(); // Cân nặng (kg)
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
 
-  // Biến để lưu kết quả
-  double? _bmiResult; // Dấu ? nghĩa là ban đầu có thể null (chưa tính)
-  String _textResult = ""; // Thông báo (Gầy, Bình thường...)
-  Color _resultColor = Colors.black; // Màu chữ kết quả
+  double? _bmiResult;
+  String _textResult = "";
+  Color _resultColor = Colors.black;
 
-  // Hàm tính toán BMI
   void _calculateBMI() {
-    // Lấy text từ ô nhập liệu
     String heightText = _heightController.text;
     String weightText = _weightController.text;
 
-    // Kiểm tra xem người dùng có nhập thiếu không
     if (heightText.isEmpty || weightText.isEmpty) {
       setState(() {
         _textResult = "Vui lòng nhập đầy đủ thông tin!";
@@ -36,17 +28,11 @@ class _BmiPageState extends State<BmiPage> {
       return;
     }
 
-    // Chuyển đổi String sang số (double)
     double height = double.parse(heightText);
     double weight = double.parse(weightText);
-
-    // Đổi chiều cao từ cm sang m (Ví dụ 170cm -> 1.7m)
     double heightInMeters = height / 100;
-
-    // Công thức tính BMI
     double bmi = weight / (heightInMeters * heightInMeters);
 
-    // Logic phân loại sức khỏe
     String message = "";
     Color color = Colors.black;
 
@@ -64,7 +50,6 @@ class _BmiPageState extends State<BmiPage> {
       color = Colors.red;
     }
 
-    // Cập nhật giao diện
     setState(() {
       _bmiResult = bmi;
       _textResult = message;
@@ -81,24 +66,19 @@ class _BmiPageState extends State<BmiPage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        // Cho phép cuộn nếu màn hình nhỏ
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Hình ảnh minh họa cho đẹp (Icon lớn)
             const Icon(
               Icons.monitor_weight_outlined,
               size: 100,
               color: Colors.blue,
             ),
-
             const SizedBox(height: 30),
-
-            // Ô nhập Chiều cao
             TextField(
               controller: _heightController,
-              keyboardType: TextInputType.number, // Chỉ hiện bàn phím số
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Chiều cao (cm)',
                 hintText: 'Ví dụ: 170',
@@ -106,13 +86,10 @@ class _BmiPageState extends State<BmiPage> {
                 prefixIcon: Icon(Icons.height),
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // Ô nhập Cân nặng
             TextField(
               controller: _weightController,
-              keyboardType: TextInputType.number, // Chỉ hiện bàn phím số
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Cân nặng (kg)',
                 hintText: 'Ví dụ: 65',
@@ -120,10 +97,7 @@ class _BmiPageState extends State<BmiPage> {
                 prefixIcon: Icon(Icons.line_weight),
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // Nút Tính toán
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -139,10 +113,7 @@ class _BmiPageState extends State<BmiPage> {
                 ),
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // Phần hiển thị kết quả (Chỉ hiện khi đã có kết quả)
             if (_bmiResult != null)
               Column(
                 children: [
@@ -151,7 +122,6 @@ class _BmiPageState extends State<BmiPage> {
                     style: TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                   Text(
-                    // toStringAsFixed(2): Lấy 2 số sau dấu phẩy (VD: 22.55)
                     _bmiResult!.toStringAsFixed(2),
                     style: const TextStyle(
                       fontSize: 50,
@@ -166,7 +136,7 @@ class _BmiPageState extends State<BmiPage> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: _resultColor, // Màu thay đổi theo kết quả
+                      color: _resultColor,
                     ),
                   ),
                 ],

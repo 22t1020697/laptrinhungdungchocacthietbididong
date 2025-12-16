@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 // 1. IMPORT TỆP ĐĂNG KÝ MỚI
 //    Nhớ thay 'ten_du_an' bằng tên dự án thực tế của bạn
-import 'package:nhu_project/register_page.dart';
-import 'package:nhu_project/profile.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,13 +38,10 @@ class _LoginPageState extends State<LoginPage> {
       // Điều hướng sang trang hồ sơ cá nhân sau 1 giây
       Future.delayed(const Duration(seconds: 1), () {
         if (mounted) {
-          Navigator.pushReplacement(
+          Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => ProfilePage(
-                username: _usernameController.text,
-              ),
-            ),
+            '/profile',
+            arguments: _usernameController.text,
           );
         }
       });
@@ -56,10 +51,8 @@ class _LoginPageState extends State<LoginPage> {
   // **** PHẦN MỚI: Hàm để điều hướng sang trang Đăng ký ****
   void _navigateToRegister() {
     // Push RegisterPage and await returned credentials (if any).
-    Navigator.push<Map<String, String>>(
-      context,
-      MaterialPageRoute(builder: (context) => const RegisterPage()),
-    ).then((result) {
+    Navigator.pushNamed<Map<String, String>>(context, '/register')
+        .then((result) {
       if (result != null && mounted) {
         // If registration returned credentials, prefill the login fields
         setState(() {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nhu_project/loginpage.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
@@ -45,9 +44,9 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.pop(context); // Đóng dialog
                 // Quay lại trang đăng nhập
-                Navigator.pushAndRemoveUntil(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  '/login',
                   (route) => false,
                 );
               },
@@ -86,10 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       shape: BoxShape.circle,
                       color: Colors.white,
                       boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                        const BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.2),
                           blurRadius: 10,
-                          offset: const Offset(0, 5),
+                          offset: Offset(0, 5),
                         ),
                       ],
                     ),

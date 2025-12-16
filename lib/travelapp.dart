@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Travelapp extends StatelessWidget {
-  final List<String> places = [
+  const Travelapp({super.key});
+
+  static const List<String> places = [
     'assets/anh1.png',
     'assets/anh2.png',
     'assets/anh3.png',

@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nhu_project/loginpage.dart';
+import 'package:nhu_project/register_page.dart';
 import 'package:nhu_project/profile.dart';
+import 'package:nhu_project/myhomepage.dart';
+import 'package:nhu_project/myproduct.dart';
+import 'package:nhu_project/myplace.dart';
+import 'package:nhu_project/travelapp.dart';
+import 'package:nhu_project/booking.dart';
+import 'package:nhu_project/feedback_page.dart';
+import 'package:nhu_project/bmi_page.dart';
+import 'package:nhu_project/dem.dart';
+import 'package:nhu_project/demthoigian.dart';
+import 'package:nhu_project/api_login.dart';
+import 'package:nhu_project/change.dart';
+import 'package:nhu_project/myclassroom.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,12 +26,46 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Login & Profile App',
+      title: 'Nhu Project',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/home': (context) => const MyHomePage(),
+        '/products': (context) => const MyProduct(),
+        '/places': (context) => const MyPlace(),
+        '/travel': (context) => const Travelapp(),
+        '/booking': (context) => const BookingPage(),
+        '/feedback': (context) => const FeedbackPage(),
+        '/bmi': (context) => const BmiPage(),
+        '/counter': (context) => const CounterScreen(),
+        '/timer': (context) => const CountdownTimerScreen(),
+        '/api_login': (context) => const ApiLoginPage(),
+        '/change': (context) => const ColorChangerPage(),
+        '/classroom': (context) => const MyClassroom(),
+      },
+      onGenerateRoute: (settings) {
+        // Support passing arguments to the ProfilePage using a username String
+        if (settings.name == '/profile') {
+          final args = settings.arguments;
+          final username = args is String ? args : '';
+          return MaterialPageRoute(
+            builder: (context) => ProfilePage(username: username),
+            settings: settings,
+          );
+        }
+        // Unknown route
+        return MaterialPageRoute(
+          builder: (context) => const Scaffold(
+            body: Center(child: Text('Route not found')),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,63 +1,139 @@
 import 'package:flutter/material.dart';
 
-class Myplace extends StatelessWidget {
-  const Myplace({super.key});
+class MyPlace extends StatelessWidget {
+  const MyPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: myBody());
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My Place"),
+        backgroundColor: Colors.teal,
+        elevation: 4,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: myBody(),
+    );
   }
 
   Widget myBody() {
-    return Column(
-      children: [
-        //block1(),
-        // block2(),
-        block3(),
-        // block4(),
-      ],
-    );
-  }
-
-  Widget block3() {
-    return Row(
-      children: [
-        Column(children: [Icon(Icons.call), Text("call")]),
-        Column(children: [Icon(Icons.directions), Text("route")]),
-        Column(children: [Icon(Icons.share), Text("share")]),
-      ],
-    );
-  }
-
-  Widget block2() {
-    var namePlace = "Sahara";
-    var addressPlace = "Châu Phi";
-    var votePlace = "41";
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(namePlace), Text(addressPlace)],
-          ),
-          Row(children: [Icon(Icons.star), Text(votePlace)]),
+          block1(),
+          const SizedBox(height: 16),
+          block2(),
+          const SizedBox(height: 24),
+          block3(),
+          const SizedBox(height: 24),
+          block4(),
+          const SizedBox(height: 24),
         ],
       ),
     );
   }
 
-  Widget block4() {
-    var data =
-        "Khí hậu Sahara đã trải qua những biến đổi to lớn giữa ẩm và khô trong vài trăm nghìn năm qua. Trong kỷ băng hà cuối cùng, Sahara lớn hơn ngày nay, trải dài xa hơn về phía nam so với biên giới hiện tại .";
-    return Text(data);
+  /// Hình ảnh
+  Widget block1() {
+    return Image.asset(
+      "assets/images/sa-mac-sahara.jpg",
+      height: 240,
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
   }
 
-  Widget block1() {
-    var src =
-        "https://cdn.britannica.com/86/115086-050-0C320EC1/Camel-caravan-Sahara-Morocco.jpg ";
+  /// Tên, địa chỉ, vote
+  Widget block2() {
+    var namePlace = "Sahara Desert";
+    var addressPlace = "North Africa";
+    var votePlace = "4.5";
 
-    return Image.network(src);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Bên trái
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                namePlace,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                addressPlace,
+                style: TextStyle(color: Colors.grey[600], fontSize: 16),
+              ),
+            ],
+          ),
+          // Bên phải (vote)
+          Row(
+            children: [
+              const Icon(Icons.star, color: Colors.orange, size: 26),
+              Text(
+                votePlace,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Hàng nút (call, route, share)
+  Widget block3() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          customButton(Icons.call, "CALL"),
+          customButton(Icons.near_me, "ROUTE"),
+          customButton(Icons.share, "SHARE"),
+        ],
+      ),
+    );
+  }
+
+  /// Text mô tả
+  Widget block4() {
+    var data =
+        "The Sahara Desert is the largest hot desert in the world, stretching across North Africa. "
+        "Its vast sand dunes, unique landscapes, and extreme climate make it a fascinating natural wonder. "
+        "Tourists often visit to experience camel rides, desert camping, and breathtaking sunsets.";
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        data,
+        style: const TextStyle(fontSize: 16, height: 1.5),
+        textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  /// Tạo nút icon + text
+  Widget customButton(IconData icon, String label) {
+    return Column(
+      children: [
+        Icon(icon, size: 28, color: Colors.teal),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.teal),
+        ),
+      ],
+    );
   }
 }

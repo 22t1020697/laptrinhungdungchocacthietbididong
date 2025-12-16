@@ -35,7 +35,7 @@ class _ColorChangerPageState extends State<ColorChangerPage> {
       backgroundColor: _backgroundColor,
       appBar: AppBar(
         title: const Text('Ứng dụng Đổi màu nền'),
-        backgroundColor: Colors.black.withOpacity(0.2),
+        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.2),
         elevation: 0,
       ),
       body: Center(
