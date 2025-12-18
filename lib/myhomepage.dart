@@ -8,10 +8,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Định nghĩa màu sắc chủ đạo
-  static const Color colorStart = Color(0xFFF72F68); // Hồng
-  static const Color colorEnd = Color(0xFFF16807);   // Cam
-  static const Color sidebarBg = Color(0xFFFFF5F2); // Nền menu hồng nhạt
+  static const Color colorStart = Color(0xFF00C6FF); // Xanh Neon rực rỡ
+  static const Color colorEnd = Color(0xFFF72F68);   // Hồng Mystic
+  static const Color sidebarBg = Color(0xFFF0F7FF);  // Nền menu xanh nhạt cực nhẹ
 
   static const List<Map<String, dynamic>> _menuSections = [
     {
@@ -51,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
     },
   ];
 
-  // Thông tin cố định (Không sửa)
   final String _studentId = '22T1020697';
   final String _studentName = 'Lê Thị Quỳnh Như';
 
@@ -76,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 _buildMenu(context, isNarrow: true),
                 const Divider(height: 1),
-                Expanded(child: Center(child: _buildStudentInfoCard())),
+                Expanded(child: _buildStudentInfoCard()),
               ],
             );
           }
@@ -84,11 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return Row(
             children: [
               _buildMenu(context),
-              Expanded(
-                child: Center(
-                  child: _buildStudentInfoCard(),
-                ),
-              ),
+              Expanded(child: _buildStudentInfoCard()),
             ],
           );
         },
@@ -96,15 +90,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // MENU
   Widget _buildMenu(BuildContext context, {bool isNarrow = false}) {
     return Container(
       width: isNarrow ? double.infinity : 260,
       color: sidebarBg,
-      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header Sidebar
           Container(
             height: 140,
             decoration: const BoxDecoration(
@@ -128,14 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(height: 8),
                 Text('Flutter N3 App',
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                SizedBox(height: 2),
                 Text('Danh sách bài tập',
                     style: TextStyle(color: Colors.white70, fontSize: 12)),
               ],
             ),
           ),
-          const Divider(height: 1),
-          // List Menu Items
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(8),
@@ -151,26 +141,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(section['title'] as String,
                           style: const TextStyle(fontWeight: FontWeight.bold, color: colorStart)),
                     ),
-                    ...items.map((it) {
-                      return ListTile(
-                        dense: true,
-                        leading: Icon(it['icon'] as IconData, color: colorEnd),
-                        title: Text(it['title'] as String),
-                        trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 18),
-                        onTap: () async {
-                          final route = it['route'] as String;
-                          if (route == '/profile') {
-                            final username = await _askUsername(context);
-                            if (!mounted) return;
-                            if (username != null && username.isNotEmpty) {
-                              Navigator.pushNamed(context, '/profile', arguments: username);
+                    ...items.map((it) => ListTile(
+                          dense: true,
+                          leading: Icon(it['icon'] as IconData, color: colorEnd),
+                          title: Text(it['title'] as String),
+                          trailing: const Icon(Icons.chevron_right, size: 18),
+                          onTap: () async {
+                            final route = it['route'] as String;
+                            if (route == '/profile') {
+                              final user = await _askUsername(context);
+                              if (mounted && user != null) Navigator.pushNamed(context, route, arguments: user);
+                            } else {
+                              Navigator.pushNamed(context, route);
                             }
-                          } else {
-                            Navigator.pushNamed(context, route);
-                          }
-                        },
-                      );
-                    }),
+                          },
+                        )),
                     const SizedBox(height: 8),
                   ],
                 );
@@ -182,68 +167,117 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // --- THÔNG TIN SINH VIÊN ---
   Widget _buildStudentInfoCard() {
-    return Card(
-      elevation: 4,
-      shadowColor: colorStart.withOpacity(0.2),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.all(24),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Thông tin sinh viên',
-                style: TextStyle(color: colorStart, fontSize: 20, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-            _buildInfoRow('Mã sinh viên', _studentId),
-            const Divider(height: 24),
-            _buildInfoRow('Họ và tên', _studentName),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        image: DecorationImage(
+          image: const NetworkImage('https://www.transparenttextures.com/patterns/white-diamond.png'),
+          opacity: 0.1,
+        ),
+      ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Ảnh đại diện giả lập
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(colors: [colorStart, colorEnd]),
+                  boxShadow: [
+                    BoxShadow(color: colorStart.withOpacity(0.3), blurRadius: 20, spreadRadius: 5)
+                  ],
+                ),
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.person, size: 60, color: colorStart),
+                ),
+              ),
+              const SizedBox(height: 30),
+              
+              // Thẻ thông tin
+              Container(
+                width: 350,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: sidebarBg,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                      ),
+                      child: const Text('THÔNG TIN CÁ NHÂN', 
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: colorStart, letterSpacing: 1.1)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          _buildDetailRow(Icons.assignment_ind_rounded, 'Mã SV', _studentId),
+                          const Divider(height: 30),
+                          _buildDetailRow(Icons.badge_rounded, 'Họ Tên', _studentName),
+                          const Divider(height: 30),
+                          _buildDetailRow(Icons.school_rounded, 'Lớp', 'Công nghệ thông tin'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildDetailRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        SizedBox(
-            width: 100,
-            child: Text(label, style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.w500))),
-        const SizedBox(width: 12),
-        Expanded(child: Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
+        Icon(icon, color: colorEnd, size: 22),
+        const SizedBox(width: 15),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ],
+        )
       ],
     );
   }
 
-  // Giữ lại Dialog này vì nó dùng cho chức năng "Hồ sơ" trong menu
+  // ---  DIALOG ---
   Future<String?> _askUsername(BuildContext context) {
     final controller = TextEditingController();
     return showDialog<String>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Nhập Username'),
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-                hintText: 'Username', 
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: colorStart))),
-            autofocus: true,
+      builder: (context) => AlertDialog(
+        title: const Text('Nhập Username'),
+        content: TextField(controller: controller, autofocus: true),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Hủy')),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            style: ElevatedButton.styleFrom(backgroundColor: colorStart),
+            child: const Text('OK', style: TextStyle(color: Colors.white)),
           ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context), 
-                child: const Text('Hủy', style: TextStyle(color: Colors.grey))),
-            ElevatedButton(
-                onPressed: () => Navigator.pop(context, controller.text),
-                style: ElevatedButton.styleFrom(backgroundColor: colorStart),
-                child: const Text('OK', style: TextStyle(color: Colors.white))),
-          ],
-        );
-      },
+        ],
+      ),
     );
   }
 }

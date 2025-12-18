@@ -13,18 +13,18 @@ class _BmiPageState extends State<BmiPage> {
 
   double? _bmiResult;
   String _textResult = "";
-  Color _resultColor = Colors.black;
+  Color _resultColor = Colors.white;
+
+  // HỆ MÀU CHỦ ĐẠO
+  static const Color colorStart = Color(0xFF00C6FF); // Xanh Neon
+  static const Color colorEnd = Color(0xFFF72F68);   // Hồng Mystic
 
   void _calculateBMI() {
     String heightText = _heightController.text;
     String weightText = _weightController.text;
 
     if (heightText.isEmpty || weightText.isEmpty) {
-      setState(() {
-        _textResult = "Vui lòng nhập đầy đủ thông tin!";
-        _resultColor = Colors.red;
-        _bmiResult = null;
-      });
+      _showSnackBar("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
@@ -34,20 +34,20 @@ class _BmiPageState extends State<BmiPage> {
     double bmi = weight / (heightInMeters * heightInMeters);
 
     String message = "";
-    Color color = Colors.black;
+    Color color = Colors.white;
 
     if (bmi < 18.5) {
       message = "Bạn đang quá gầy (Thiếu cân)";
-      color = Colors.orange;
+      color = Colors.orangeAccent;
     } else if (bmi >= 18.5 && bmi < 25) {
       message = "Cơ thể cân đối (Bình thường)";
-      color = Colors.green;
+      color = Colors.greenAccent;
     } else if (bmi >= 25 && bmi < 30) {
       message = "Bạn đang thừa cân";
-      color = Colors.orangeAccent;
+      color = Colors.yellowAccent;
     } else {
       message = "Bạn bị béo phì (Nguy hiểm)";
-      color = Colors.red;
+      color = Colors.redAccent;
     }
 
     setState(() {
@@ -57,92 +57,139 @@ class _BmiPageState extends State<BmiPage> {
     });
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: colorEnd),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tính chỉ số BMI'),
-        backgroundColor: Colors.blue[100],
+        title: const Text('CHỈ SỐ SỨC KHỎE BMI', 
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [colorStart, colorEnd]),
+          ),
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          color: Color(0xFFF8FAFC),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              _buildHeaderIcon(),
+              const SizedBox(height: 30),
+              _buildInputCard(),
+              const SizedBox(height: 30),
+              if (_bmiResult != null) _buildResultCard(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeaderIcon() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: const LinearGradient(colors: [colorStart, colorEnd]),
+        boxShadow: [BoxShadow(color: colorEnd.withOpacity(0.3), blurRadius: 20, spreadRadius: 5)],
+      ),
+      child: const Icon(Icons.monitor_weight_rounded, size: 60, color: Colors.white),
+    );
+  }
+
+  Widget _buildInputCard() {
+    return Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.all(25),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.monitor_weight_outlined,
-              size: 100,
-              color: Colors.blue,
-            ),
-            const SizedBox(height: 30),
-            TextField(
-              controller: _heightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Chiều cao (cm)',
-                hintText: 'Ví dụ: 170',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.height),
-              ),
-            ),
+            _buildTextField(_heightController, 'Chiều cao (cm)', Icons.height),
             const SizedBox(height: 20),
-            TextField(
-              controller: _weightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Cân nặng (kg)',
-                hintText: 'Ví dụ: 65',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.line_weight),
-              ),
-            ),
+            _buildTextField(_weightController, 'Cân nặng (kg)', Icons.line_weight),
             const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _calculateBMI,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text(
-                  'TÍNH BMI',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            if (_bmiResult != null)
-              Column(
-                children: [
-                  const Text(
-                    "Chỉ số BMI của bạn:",
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                  Text(
-                    _bmiResult!.toStringAsFixed(2),
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    _textResult,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: _resultColor,
-                    ),
-                  ),
-                ],
-              ),
+            _buildSubmitButton(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String label, IconData icon) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: colorEnd),
+        filled: true,
+        fillColor: colorStart.withOpacity(0.05),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: colorStart, width: 2),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return Container(
+      width: double.infinity,
+      height: 55,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        gradient: const LinearGradient(colors: [colorStart, colorEnd]),
+      ),
+      child: ElevatedButton(
+        onPressed: _calculateBMI,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        ),
+        child: const Text('TÍNH TOÁN NGAY', 
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+      ),
+    );
+  }
+
+  Widget _buildResultCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [colorStart, colorEnd]),
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [BoxShadow(color: colorEnd.withOpacity(0.3), blurRadius: 15)],
+      ),
+      child: Column(
+        children: [
+          const Text("CHỈ SỐ BMI CỦA BẠN", style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(_bmiResult!.toStringAsFixed(1), 
+            style: const TextStyle(fontSize: 70, fontWeight: FontWeight.w900, color: Colors.white)),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
+            child: Text(_textResult, textAlign: TextAlign.center, 
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _resultColor)),
+          ),
+        ],
       ),
     );
   }
