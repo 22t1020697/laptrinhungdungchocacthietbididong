@@ -14,6 +14,7 @@ import 'package:nhu_project/demthoigian.dart';
 import 'package:nhu_project/api_login_screen.dart';
 import 'package:nhu_project/change.dart';
 import 'package:nhu_project/myclassroom.dart';
+import 'package:nhu_project/news_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,22 +49,23 @@ class MyApp extends StatelessWidget {
         '/timer': (context) => const CountdownTimerScreen(),
         '/change': (context) => const ColorChangerPage(),
         '/classroom': (context) => const MyClassroom(),
-        
+        '/news': (context) => const NewsListScreen(),
+
         // Sửa lỗi: Truyền callback cho LoginApiScreen
         '/api_login': (context) => LoginApiScreen(
-          onLoginSuccess: (token) {
-            debugPrint("Đã nhận Token tại Main: $token");
-          },
-        ),
+              onLoginSuccess: (token) {
+                debugPrint("Đã nhận Token tại Main: $token");
+              },
+            ),
       },
       onGenerateRoute: (settings) {
         // Xử lý route /profile linh hoạt
         if (settings.name == '/profile') {
           final args = settings.arguments;
-          
+
           // Nếu bạn chỉ truyền username kiểu String (như file profile.dart hiện tại)
           final String username = args is String ? args : 'Guest';
-          
+
           return MaterialPageRoute(
             builder: (context) => ProfilePage(username: username),
             settings: settings,

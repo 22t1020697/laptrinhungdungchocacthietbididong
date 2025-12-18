@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'items': [
         {'title': 'Sản phẩm', 'route': '/products', 'icon': Icons.shopping_bag},
         {'title': 'Phản hồi', 'route': '/feedback', 'icon': Icons.feedback},
+        {'title': 'Tin tức', 'route': '/news', 'icon': Icons.article},
       ],
     },
     {

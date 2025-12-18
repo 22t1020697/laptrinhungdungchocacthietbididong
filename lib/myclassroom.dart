@@ -10,7 +10,7 @@ class MyClassroom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 218, 187, 187),
+      backgroundColor: const Color.fromARGB(255, 245, 238, 238),
       appBar: AppBar(
         title: const Text(
           "Google Classroom",
