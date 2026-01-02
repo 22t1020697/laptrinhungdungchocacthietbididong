@@ -25,4 +25,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/drinks/orange_juice.jpg
+    - assets/drinks/avocado_smoothie.jpg
+    - assets/drinks/carrot_juice.jpg    
+    - assets/drinks/nut_milk.jpg
+    - assets/drinks/coconut_water.jpg
+    - assets/drinks/green_tea.jpg
+    - assets/drinks/lemon_honey.jpg
+    - assets/drinks/ginger_tea.jpg
+    - assets/drinks/chamomile_tea.jpg

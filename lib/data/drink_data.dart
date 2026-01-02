@@ -1,0 +1,66 @@
+final List<Map<String, String>> drinkData = [
+  {
+    'name': 'Nước ép cam',
+    'image': 'assets/drinks/orange_juice.jpg',
+    'bestTime': 'Buổi sáng sau ăn',
+    'amount': '200 – 300 ml / ngày',
+    'advice': 'Tăng đề kháng, không nên uống khi đói',
+  },
+  {
+    'name': 'Trà xanh',
+    'image': 'assets/drinks/green_tea.jpg',
+    'bestTime': 'Buổi sáng hoặc đầu giờ chiều',
+    'amount': '300 – 500 ml / ngày',
+    'advice': 'Giúp đốt mỡ, tránh uống buổi tối',
+  },
+  {
+    'name': 'Nước dừa',
+    'image': 'assets/drinks/coconut_water.jpg',
+    'bestTime': 'Sau vận động hoặc buổi trưa',
+    'amount': '300 – 400 ml / ngày',
+    'advice': 'Bù điện giải, không uống buổi tối',
+  },
+
+  {
+    'name': 'Sinh tố bơ',
+    'image': 'assets/drinks/avocado_smoothie.jpg',
+    'bestTime': 'Buổi sáng hoặc chiều',
+    'amount': '200 – 300 ml / ngày',
+    'advice': 'Tốt cho tim mạch, da',
+  },
+  {
+    'name': 'Nước chanh mật ong',
+    'image': 'assets/drinks/lemon_honey.jpg',
+    'bestTime': 'Buổi sáng',
+    'amount': '200 ml / ngày',
+    'advice': 'Thanh lọc cơ thể',
+  },
+  {
+    'name': 'Sữa hạt',
+    'image': 'assets/drinks/nut_milk.jpg',
+    'bestTime': 'Buổi sáng hoặc tối',
+    'amount': '250 ml / ngày',
+    'advice': 'Giàu dinh dưỡng, dễ tiêu',
+  },
+  {
+    'name': 'Trà gừng',
+    'image': 'assets/drinks/ginger_tea.jpg',
+    'bestTime': 'Buổi sáng',
+    'amount': '200 ml / ngày',
+    'advice': 'Giữ ấm cơ thể, tốt tiêu hóa',
+  },
+  {
+    'name': 'Nước ép cà rốt',
+    'image': 'assets/drinks/carrot_juice.jpg',
+    'bestTime': 'Buổi trưa',
+    'amount': '200 – 300 ml / ngày',
+    'advice': 'Tốt cho mắt',
+  },
+  {
+    'name': 'Trà hoa cúc',
+    'image': 'assets/drinks/chamomile_tea.jpg',
+    'bestTime': 'Buổi tối',
+    'amount': '200 ml / ngày',
+    'advice': 'Giúp ngủ ngon',
+  },
+];
